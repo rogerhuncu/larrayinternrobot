@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>tracking.js - face with camera</title>
   <link rel="stylesheet" href="css/demo.css">
-
+  <script type="text/javascript" src="js/amplitude.min.js"></script>
   <script src="js/tracking-min.js"></script>
   <script src="js/face-min.js"></script>
   <script src="js/dat.gui.min.js"></script>
@@ -31,12 +31,12 @@
     <div class="demo-container">
       <video id="video" width="320" height="240" preload autoplay loop muted></video>
       <canvas id="canvas" width="320" height="240"></canvas>
-      <audio id="audio" src="js/b.mp3" autostart="false" ></audio>
+      <!--<audio id="audio" src="js/b.mp3" autostart="false" ></audio> -->
     </div>
   </div>
 
   <script>
-    var sound =  document.getElementById('audio');
+    //var sound =  document.getElementById('audio');
     window.onload = function() {
       var video = document.getElementById('video');
       var canvas = document.getElementById('canvas');
@@ -52,7 +52,8 @@
       tracker.on('track', function(event) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         if(event.data.length!==0){
-            sound.play();
+            //sound.play();
+            Amplitude.play();
             event.data.forEach(function(rect) {
                 context.strokeStyle = '#a64ceb';
                 context.strokeRect(rect.x, rect.y, rect.width, rect.height);
@@ -69,6 +70,19 @@
       gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
       gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
       gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+      
+      Amplitude.init({
+        "songs": [
+            {
+                "name": "Song Name 1",
+                "artist": "Artist Name",
+                "album": "Album Name",
+                "url": "js/b.mp3",
+                "cover_art_url": "/cover/art/url.jpg"
+            },
+        ]
+      });
+      
     };
   </script>
 
